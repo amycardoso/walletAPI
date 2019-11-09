@@ -5,7 +5,7 @@
 .settings/
 
 # sbteclipse plugin
-.target
+target
 
 
 .sts4-cache
