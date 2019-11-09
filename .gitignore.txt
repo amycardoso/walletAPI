@@ -1,0 +1,11 @@
+# Eclipse Project Files
+
+.classpath
+.project
+.settings/
+
+# sbteclipse plugin
+.target
+
+
+.sts4-cache
