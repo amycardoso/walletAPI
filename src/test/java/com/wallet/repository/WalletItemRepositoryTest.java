@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import javax.validation.ConstraintViolationException;
 
+import org.hibernate.annotations.Sort;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -119,5 +120,58 @@ public class WalletItemRepositoryTest {
 		Optional<WalletItem> response = repository.findById(wi.getId());
 		
 		assertFalse(response.isPresent());
+	}
+	
+	@Test
+	public void testFindBetweenDates() {
+		Optional<Wallet> w = walletRepository.findById(savedWalletId);
+		
+		LocalDateTime localDateTime = DATE.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+		
+		Date currentDatePlusFiveDays = Date.from(localDateTime.plusDays(5).atZone(ZoneId.systemDefault()).toInstant());
+		Date currentDatePlusSevenDays = Date.from(localDateTime.plusDays(7).atZone(ZoneId.systemDefault()).toInstant());
+
+        
+		repository.save(new WalletItem(null, w.get(), currentDatePlusFiveDays, TYPE, DESCRIPTION, VALUE));
+		repository.save(new WalletItem(null, w.get(), currentDatePlusSevenDays, TYPE, DESCRIPTION, VALUE));
+		
+		PageRequest pg = PageRequest.of(0, 10);
+		Page<WalletItem> response = repository.findAllByWalletIdAndDateGreaterThanEqualAndDateLessThanEqual(savedWalletId, DATE, currentDatePlusFiveDays, pg);
+		
+		assertEquals(response.getContent().size(), 2);
+		assertEquals(response.getTotalElements(), 2);
+		assertEquals(response.getContent().get(0).getWallet().getId(), savedWalletId);
+	}
+	
+	@Test
+	public void testFindByType() {
+		List<WalletItem> response = repository.findByWalletIdAndType(savedWalletId, TYPE);
+		
+		assertEquals(response.size(), 1);
+		assertEquals(response.get(0).getType(), TYPE);
+	}
+	
+	@Test
+	public void testFindByTypeSd() {
+		
+		Optional<Wallet> w = walletRepository.findById(savedWalletId);
+		
+		repository.save(new WalletItem(null, w.get(), DATE, TypeEnum.SD, DESCRIPTION, VALUE));
+		
+		List<WalletItem> response = repository.findByWalletIdAndType(savedWalletId, TypeEnum.SD);
+		
+		assertEquals(response.size(), 1);
+		assertEquals(response.get(0).getType(), TypeEnum.SD);
+	}
+
+	@Test
+	public void testSumByWallet() {
+		Optional<Wallet> w = walletRepository.findById(savedWalletId);
+		
+		repository.save(new WalletItem(null, w.get(), DATE, TYPE, DESCRIPTION, BigDecimal.valueOf(150.80)));
+		
+		BigDecimal response = repository.sumByWalletId(savedWalletId);
+		
+		assertEquals(response.compareTo(BigDecimal.valueOf(215.8)), 0);
 	}
 }
