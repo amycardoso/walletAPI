@@ -24,25 +24,27 @@ public class WalletItemServiceImpl implements WalletItemService{
 
 	@Autowired
 	WalletItemRepository repository;
-
+	
 	@Value("${pagination.items_per_page}")
 	private int itemsPerPage;
-
+	
 	@Override
+	@CacheEvict(value = "findByWalletAndType", allEntries = true)
 	public WalletItem save(WalletItem i) {
 		return repository.save(i);
 	}
 
 	@Override
 	public Page<WalletItem> findBetweenDates(Long wallet, Date start, Date end, int page) {
-
+		
 		@SuppressWarnings("deprecation")
 		PageRequest pg = PageRequest.of(page, itemsPerPage);
-
+		
 		return repository.findAllByWalletIdAndDateGreaterThanEqualAndDateLessThanEqual(wallet, start, end, pg);
 	}
 
 	@Override
+	@Cacheable(value = "findByWalletAndType")
 	public List<WalletItem> findByWalletAndType(Long wallet, TypeEnum type) {
 		return repository.findByWalletIdAndType(wallet, type);
 	}
@@ -58,6 +60,7 @@ public class WalletItemServiceImpl implements WalletItemService{
 	}
 
 	@Override
+	@CacheEvict(value = "findByWalletAndType", allEntries = true)
 	public void deleteById(Long id) {
 		repository.deleteById(id);
 	}
