@@ -1,8 +1,8 @@
 language: java
 jdk:
-  - openjdk8
+- openjdk8
 deploy:
   provider: heroku
   api_key:
-    secure: $KEY
-  app: $APP 
+    secure: ZD9nOaZbDv8LmfCBNCqI33505ap/KxPo2s5BIU/N0fepqJfJfFfHqlWcOv3rEFfsIUDbFtq2pUZtHa6PpUnCHAIYDp7U7VTAiWJQyugeRwikn6q9pITzzRngBCeSrKnYAHeDLvUE2hcArgiuO0vmF3GKtICoLpG8/tPRHcz6nRHBr3fj+oCwlKxyvFAowMzWQwQvVGljASKd3d6TFu3qtovYMPvI7ZHTZ2ZC3OiRLTjQc8VODDAO+PEmHF0+s+QYjPmrjsJY35mDibf+Lm5QyYigkBAnqV3meUFqM2rnqfDMh3U8DzdZWffSxkIYmo4KzqWrdYpDHtfZIfO4sESNrI862TdmvISex+4Dzf560esC8PxP8+N7+ZkQayhbkv17ULl+HwgA8zHsh0qxVpHGwi/U5DVG9T6C2QtfzYip9AooYwCqJZazIvfTR19TJx7MAjO40PM/fDec05OrC4aDlhoII6XRrVu978X9GjNmQcetDPQjrToQJ3O1MoRpFYoohCM7Enx1RDatfhn5hjJugPPEFV6S9eLSc49Q6ZzUTgZvXuYdnCDYrfr5vG6gCQqWwmj0eWZbctx0nmtZrh5AANJd8fOYUyJcAogr8vA30kclGSjyqoDvfrdNzsOdBdngtpBKOPfPA+Ujs3YM3T8jLjRFSpQMDWDOK98mpy3S628=
+  app: "$APP"
