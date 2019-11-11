@@ -13,7 +13,6 @@ import java.util.Optional;
 
 import javax.validation.ConstraintViolationException;
 
-import org.hibernate.annotations.Sort;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
